@@ -30,15 +30,18 @@
 - Context is a middle ground.
 - Context is what react uses under the hood to pass data around.
 
-## CurrentStep: step1
+## CurrentStep:
 
 Step: step1
+<br />
 Branch: 1-without-context
 
-### Learnings: Lets build a simple User Login and inbox without context.
+### Learnings: Step1. Lets build a simple User Login and inbox without context.
+
 - In UserMenu.js, I have to display a rounded avatar image, on clicking which i need to display a menu.
-- <img src="img/1_avatar.png" />
-- <img src="img/2_avatar.png" />
+
+<img src="img/1_avatar.png" />
+<img src="img/2_avatar.png" />
 - Mistake1: I have assigned avatarRef to div parent
 ```js
     return <div className="UserMenu" ref={avatarRef} >
