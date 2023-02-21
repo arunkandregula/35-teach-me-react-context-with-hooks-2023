@@ -28,7 +28,6 @@ const UserProvider = (props) => {
             data: currentUser
         });
     }
-    debugger;
     return <Provider value={{
         currentUser,
         onLogin,

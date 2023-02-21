@@ -30,6 +30,48 @@
 - Context is a middle ground.
 - Context is what react uses under the hood to pass data around.
 
+### Current Step:
+
+Step: step5
+<br />
+Branch: 5-multiple-context-providers
+
+#### Problems with step4
+
+- So far we illustrated only one context provider. In real world, we may have unrelated kinds of data which may not come form single context.
+
+#### step5. Lets use multiple React Context Providers in the Same App.
+
+When you have two unrelated kinds of data such as a current user and a currently-selected email, it’s common for some parts of the app to need the user and some other parts of the app to need the email. One way to do this is to create multiple Contexts, each with its own Provider and Consumer, and use each one to distribute one kind of data to the slices of the app that need it. In this lesson we’ll pass user data and email data to separate subtrees using two separate Contexts.
+
+- We will have following state for EmailContext that is exposed in the EmailContext:
+    - emails (that we load from api.js)
+    - currentEmail (is consumed by MainPage to switch between MessageViewer and MessageList)
+    - isLoading (is consumed by MainPage)
+    - error
+- We will also expose a callback to the components that let them change the context:
+    - onSelectEmail
+
+
+
+## Previous Step:
+Step: step4
+<br />
+Branch: 4-encapsulate-and-centralize-sharable-data-and-methods
+
+### Problems with step3
+
+- Single Responsibility Principle is broken for App.
+  So far, App is responsible for defining currentUser, onLogin, onLogout. But they are being shared from UserContext. In future, App may become responsible for sharing theme, language setting etc., which is not what we want. We dont want App to get messy.
+
+- Lack of encapsulation.
+  App knows all the implementation details of what the provider is providing although it doesnt consume directly.
+
+- Let each ContextProvider own and define what it want to share. Move that data (currentUser) + methods (onLogin, onLogout) out of App.
+
+### step3. Use React Context to avoid passing callbacks deeply into the component tree.
+
+
 ## Current Step:
 Step: step4
 <br />

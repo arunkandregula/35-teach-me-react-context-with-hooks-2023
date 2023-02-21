@@ -91,3 +91,14 @@ input {
   text-align: center;
   margin-top: 40px;
 }
+
+.MessageList ul {
+  list-style: none;
+  padding: 0;
+}
+
+.MessageList li {
+  padding: 10px;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+}
