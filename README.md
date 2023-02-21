@@ -31,14 +31,6 @@
 - Context is what react uses under the hood to pass data around.
 
 ## Current Step:
-
-Step: step1
-<br />
-Branch: 1-without-context
-
-### Learnings: Step1. Lets build a simple User Login and inbox without context.
-
-## Previous Step:
 Step: step4
 <br />
 Branch: 4-encapsulate-and-centralize-sharable-data-and-methods
