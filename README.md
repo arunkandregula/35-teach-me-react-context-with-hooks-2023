@@ -30,7 +30,56 @@
 - Context is a middle ground.
 - Context is what react uses under the hood to pass data around.
 
-## CurrentStep:
+## Current Step:
+
+Step: step1
+<br />
+Branch: 1-without-context
+
+### Learnings: Step1. Lets build a simple User Login and inbox without context.
+
+## Previous Step:
+Step: step4
+<br />
+Branch: 4-encapsulate-and-centralize-sharable-data-and-methods
+
+### Problems with step3
+
+- Single Responsibility Principle is broken for App.
+  So far, App is responsible for defining currentUser, onLogin, onLogout. But they are being shared from UserContext. In future, App may become responsible for sharing theme, language setting etc., which is not what we want. We dont want App to get messy.
+
+- Lack of encapsulation.
+  App knows all the implementation details of what the provider is providing although it doesnt consume directly.
+
+- Let each ContextProvider own and define what it want to share. Move that data (currentUser) + methods (onLogin, onLogout) out of App.
+
+### step3. Use React Context to avoid passing callbacks deeply into the component tree.
+
+
+## Previous Step:
+Step: step3
+<br />
+Branch: 3-use-context-to-share-callbacks
+
+### Problems with step2
+
+- Callbacks are being passed multiple levels down through intermediate components to deeply nested child components, without intermediate components actually using them.
+
+### step3. Use React Context to avoid passing callbacks deeply into the component tree.
+
+
+## Previous Step:
+
+Step: step2
+<br />
+Branch: 2-use-context-to-share-data
+
+### Learnings: Step2. Use React Context to avoid passing props deeply into the component tree.
+
+
+
+
+## Previous Step:
 
 Step: step1
 <br />

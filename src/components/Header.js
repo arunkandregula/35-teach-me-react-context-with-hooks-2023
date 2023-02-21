@@ -1,10 +1,10 @@
 import React from 'react';
 import UserMenu from './UserMenu';
 
-const Header = ({ currentUser, onLogout }) => {
+const Header = () => {
     return <div className="Header">
         <h2>My mail</h2>
-        <UserMenu currentUser={currentUser} onLogout={onLogout} />
+        <UserMenu />
     </div>
 }
 

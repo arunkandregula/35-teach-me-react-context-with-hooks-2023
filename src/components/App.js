@@ -1,38 +1,17 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import MainPage from './MainPage';
 import LoginPage from './LoginPage';
-
-const LOGIN = 'LOGIN';
-const LOGOUT = 'LOGOUT';
+import { UserConsumer } from '../context/UserContext';
 
 function App() {
-  const [currentUser, dispatchCurrentUser] = useReducer((prevState, action) => {
-    console.log('Reducer: prevState:', prevState, ' , action:', action);
-    switch (action.type) {
-      case LOGIN: return action.data;
-      case LOGOUT: return null;
-      default:
-        break;
-    }
-    return prevState;
-  }, null);
-  const onLogin = (currentUser) => {
-    dispatchCurrentUser({
-      type: LOGIN,
-      data: currentUser
-    });
-  }
-  const onLogout = () => {
-    dispatchCurrentUser({
-      type: LOGIN,
-      data: currentUser
-    });
-  }
-  console.log('currentUser:', currentUser);
   return (
-    currentUser != null ?
-      <MainPage currentUser={currentUser} onLogout={onLogout} /> :
-      <LoginPage onLogin={onLogin} />
+    <UserConsumer>
+      {
+        ({ currentUser }) => {
+          return currentUser != null ? <MainPage /> : <LoginPage />
+        }
+      }
+    </UserConsumer>
   );
 }
 
