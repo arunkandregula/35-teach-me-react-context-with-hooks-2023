@@ -52,26 +52,6 @@ When you have two unrelated kinds of data such as a current user and a currently
 - We will also expose a callback to the components that let them change the context:
     - onSelectEmail
 
-
-
-## Previous Step:
-Step: step4
-<br />
-Branch: 4-encapsulate-and-centralize-sharable-data-and-methods
-
-### Problems with step3
-
-- Single Responsibility Principle is broken for App.
-  So far, App is responsible for defining currentUser, onLogin, onLogout. But they are being shared from UserContext. In future, App may become responsible for sharing theme, language setting etc., which is not what we want. We dont want App to get messy.
-
-- Lack of encapsulation.
-  App knows all the implementation details of what the provider is providing although it doesnt consume directly.
-
-- Let each ContextProvider own and define what it want to share. Move that data (currentUser) + methods (onLogin, onLogout) out of App.
-
-### step3. Use React Context to avoid passing callbacks deeply into the component tree.
-
-
 ## Current Step:
 Step: step4
 <br />
