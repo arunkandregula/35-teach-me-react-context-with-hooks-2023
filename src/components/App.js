@@ -24,8 +24,8 @@ function App() {
   }
   const onLogout = () => {
     dispatchCurrentUser({
-      type: LOGIN,
-      data: currentUser
+      type: LOGOUT,
+      data: null
     });
   }
   console.log('currentUser:', currentUser);
