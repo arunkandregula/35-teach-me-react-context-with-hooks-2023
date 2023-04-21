@@ -102,3 +102,32 @@ input {
   border-bottom: 1px solid black;
   cursor: pointer;
 }
+
+ul.notification-wrapper {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  list-style: none;
+}
+
+li.notification {
+  padding: 10px;
+  border: 1px solid black;
+  margin-top: 5px;
+  position: relative;
+  background-color: #efefef;
+  z-index: 1;
+}
+
+button.notification-close {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  background-color: #ccc;
+  color: #fff;
+
+}
+
+button.notification-close:hover {
+  cursor: pointer;
+}

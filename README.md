@@ -32,6 +32,158 @@
 
 ### Current Step:
 
+Step: step6
+<br />
+Branch: 6-inter-context-communication
+
+#### Problems with step5
+
+- So far, Email data is static. We want to make it dynamic. As new emails come, we want to show App level notifications.
+- So far we did not illustrate context to context communication. Lets see that in next step.
+
+#### step6. Lets see how multiple contexts communicate with each other.
+
+- A common kind kind of "global" data is a toast or popup notification that appears in the corner of the app when some event happens. Allowing a deeply nested component to surface a notification to the root of the app is painful as a callback has to be passed from root level to the deeply nested component. Using a context makes it easier. In this step, we will see how to dispatch a notification from deeply nested component and display it at the root level.
+
+#### step6.1 lets retrieve email every 5 seconds.
+
+- But big learning, setInterval() within useEffect is creating a stale closure.
+```js
+    // fetch all email on componentDidMount
+    useEffect(() => {
+        setIsLoading(true);
+        setError(false);
+        fetchEmails().then((_emails) => {
+            setIsLoading(false);
+            setEmails(_emails);
+        });
+        refreshInterval = setInterval(() => {
+            fetchLatestEmails().then((newEmails) => {
+                setEmails(emails.concat(newEmails)); // emails is always [] due to stale closure in useEffect. Its a standard problem in React hooks.
+            });
+
+        }, 3000);
+
+    }, []);
+```
+- Main fix is in the way how we call setState or setEmails here.
+##### Fix. setState to the rescue. We can use second signature. setState(prevState => newState). This one will always fetch the latest previous state instead of closure captures value.
+```js
+    // fetch all email on componentDidMount
+    useEffect(() => {
+        setIsLoading(true);
+        setError(false);
+        fetchEmails().then((_emails) => {
+            setIsLoading(false);
+            setEmails(_emails);
+        });
+        refreshInterval = setInterval(() => {
+            fetchLatestEmails().then((newEmails) => {
+                setEmails(emails => emails.concat(newEmails)); // Correct way. Use second signature for setState. That fetches the latest previous state instead of using the value captured by stale closure passed to setInterval.
+            });
+
+        }, 3000);
+
+    }, []);
+```
+
+#### step6.2 We need to display notification messages.
+- For example:
+<img src="img/3_avatar.png" />
+
+- Idea is very simple. Wrap App with NotificationProvider.
+```js
+<NotificationProvider><App /> </NotificationProvider>
+```
+- And have notification provider has 2 responsibilities:
+    - Provides callback: notify() method for Email client (in this case, EmailProvider) to notify it of new emails.
+    - It will render notifications using:
+    ```html
+    <ul><li><li></ul>
+    ```
+
+- My first try:
+    1. Wrap EmailProvider with NotificationConsumer and have EmailProvider access its .notify() method and pass the message.
+```js
+// in EmailProvider.js
+//...
+refreshEmails = () => {
+  api
+    .fetchLatestEmails()
+    .then(emails => {
+      this.setState({
+        isLoading: false,
+        emails: this.state.emails.concat(emails)
+      });
+      // This is the point I need access to NotificationContext's notify method ==> (1)
+    })
+    .catch(error => {
+      this.setState({ isLoading: false, error });
+    });
+};
+//...
+render() {
+    return <NotificationConsumer>
+        {({notify})=>( //<============PROBLEM. I ideally want this to be passed to ==> Line (1). Not possible.
+        <Provider value={{
+            ...this.state,
+            onSelectEmail: this.handleSelectEmail
+            }}>
+        {this.props.children}
+        </Provider>
+        )}
+    </NotificationConsumer>;
+}
+```
+- The point is EmailProvider has to invoke method, notify(), shared by NotificationProvider.
+- So EmailProvider has to extract it from NotificationConsumer.
+- Did 4 mistakes in NotificationContext
+```js
+import React, { useState } from 'react';
+
+// Mistake1: Dont use React.useContext(). Call React.createContext().
+const { Provider, Consumer } = React.createContext();
+
+const NotificationProvider = (props) => {
+    const [messages, setMessages] = useState([]);
+    const notify = (msg) => {
+        // Mistake4. First signature setMessages(newState) doesnt work.
+        // stale closure issue.
+        // Learning. Only 2nd signature setMessages(prevState => newState) ONLY work.
+        setMessages(messages => messages.concat(msg));
+    }
+    return <Provider value={{
+        notify
+    }}>
+        {/* Mistake3: Forgot to add props.children */}
+        {props.children}
+        <ul className="notification-wrapper">
+            {
+                messages.map(eachMessage => <li key={eachMessage.id} className="notification">
+                    {eachMessage.text}
+                </li>)
+            }
+        </ul>
+    </Provider>;
+}
+
+// Define a HOC
+// Mistake2: Tried directly returning an element than returning a function.
+export const enhanceWithNotifier = (InputComponent) => (props) => {
+    return <Consumer>
+        {({ notify }) => <InputComponent {...props} notify={notify} />}
+    </Consumer>;
+}
+
+
+export { NotificationProvider, Consumer as NotificationConsumer };
+
+```
+<img src="img/4.png" />
+#### step6.3. We need to display notification messages at top right corner of the window
+
+### Previous Step:
+
 Step: step5
 <br />
 Branch: 5-multiple-context-providers

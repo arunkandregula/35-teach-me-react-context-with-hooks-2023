@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 export const FAKE_USER = {
     firstName: 'Arun',
     lastName: 'Kandregula',
@@ -47,5 +49,18 @@ export const fetchEmails = () => {
         setTimeout(() => {
             resolve(FAKE_EMAILS);
         }, 300);
+    });
+}
+
+export const fetchLatestEmails = () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(FAKE_EMAILS.map((eachEmail) => {
+                return {
+                    ...eachEmail,
+                    id: v4(),
+                };
+            }).slice(0, Math.round(Math.random() * FAKE_EMAILS.length)));
+        }, 1000);
     });
 }
