@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 // Mistake1: Dont use React.useContext(). Call React.createContext().
-const { Provider, Consumer } = React.createContext();
+let NotificationContext = null;
+const { Provider, Consumer } = NotificationContext = React.createContext();
 
 const NotificationProvider = (props) => {
     const [messages, setMessages] = useState([]);
@@ -37,10 +38,9 @@ const NotificationProvider = (props) => {
 // Define a HOC
 // Mistake2: Tried directly returning an element than returning a function.
 export const enhanceWithNotifier = (InputComponent) => (props) => {
-    return <Consumer>
-        {({ notify }) => <InputComponent {...props} notify={notify} />}
-    </Consumer>;
+    const { notify } = useContext(NotificationContext);
+    return <InputComponent {...props} notify={notify} />;
 }
 
 
-export { NotificationProvider, Consumer as NotificationConsumer };
+export { NotificationProvider, Consumer as NotificationConsumer, NotificationContext };

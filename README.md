@@ -30,7 +30,21 @@
 - Context is a middle ground.
 - Context is what react uses under the hood to pass data around.
 
-### Current Step:
+### CurrentStep
+
+Step: step8
+Branch: 8-use-useContext-react-hook
+
+#### Problems with step6
+
+- Render props pattern in Consumers are clumsy and unreadable with excessive nesting. Lets clean them up.
+
+#### step8. Lets try use this.context for class components and useContext react hook for functional components.
+
+- We converted few classes like App, MainPage, MessageList, MessageViewer to functional components to leverage useContext hook.
+- We left few others like LoginPage, UserMenu as they are still class components. They are currently using this.context for now. When we move 100% to hooks, we can convert all classes to functions and use jusr hooks.
+
+### PreviousStep:
 
 Step: step6
 <br />

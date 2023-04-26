@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { v4 } from 'uuid';
 import { fetchEmails, fetchLatestEmails } from '../services/api';
 import { enhanceWithNotifier } from './NotificationContext';
-const { Provider, Consumer } = React.createContext();
+let EmailContext = null;
+const { Provider, Consumer } = EmailContext = React.createContext();
 
 const EmailProvider = (props) => {
     const [emails, setEmails] = useState([]);
@@ -52,4 +53,4 @@ const EmailProvider = (props) => {
 }
 
 const EmailProviderThanCanNotify = enhanceWithNotifier(EmailProvider);
-export { EmailProviderThanCanNotify as EmailProvider, Consumer as EmailConsumer };
+export { EmailProviderThanCanNotify as EmailProvider, Consumer as EmailConsumer, EmailContext };
