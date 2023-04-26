@@ -2,7 +2,8 @@ import React, { useReducer } from 'react';
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
 
-const { Provider, Consumer } = React.createContext();
+let UserContext = null;
+const { Provider, Consumer } = UserContext = React.createContext();
 
 const UserProvider = (props) => {
     const [currentUser, dispatchCurrentUser] = useReducer((prevState, action) => {
@@ -37,4 +38,4 @@ const UserProvider = (props) => {
     </Provider>;
 };
 
-export { UserProvider, Consumer as UserConsumer };
+export { UserProvider, Consumer as UserConsumer, UserContext };

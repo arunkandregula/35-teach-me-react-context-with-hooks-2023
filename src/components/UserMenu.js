@@ -1,9 +1,10 @@
-import React, { useEffect, useReducer, useRef } from 'react';
-import { UserConsumer } from '../context/UserContext';
+import React, { useEffect, useReducer, useRef, useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 const SHOW_MENU = 'SHOW_MENU';
 const HIDE_MENU = 'HIDE_MENU';
-const UserMenu = ({ currentUser, onLogout }) => {
+const UserMenu = () => {
+    const { currentUser, onLogout } = useContext(UserContext);
     const avatarRef = useRef();
     const [isMenuVisible, dispatchIsMenuVisible] = useReducer((prevState, action) => {
         debugger;
@@ -33,21 +34,16 @@ const UserMenu = ({ currentUser, onLogout }) => {
             document.removeEventListener('click', handleClick);
         }
     }, []);
-    return <UserConsumer>
-        {
-            ({ currentUser, onLogout }) =>
-                <div className="UserMenu" >
-                    <img
-                        className="UserAvatar"
-                        src={currentUser.avatar}
-                        onClick={handleMenuClick}
-                        ref={avatarRef}
-                    />
-                    {isMenuVisible && <ul>
-                        <li onClick={onLogout}>Logout</li>
-                    </ul>}
-                </div>
-        }
-    </UserConsumer>;
+    return <div className="UserMenu" >
+        <img
+            className="UserAvatar"
+            src={currentUser.avatar}
+            onClick={handleMenuClick}
+            ref={avatarRef}
+        />
+        {isMenuVisible && <ul>
+            <li onClick={onLogout}>Logout</li>
+        </ul>}
+    </div>
 }
 export default UserMenu;

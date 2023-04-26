@@ -125,9 +125,5 @@ button.notification-close {
   right: 1px;
   background-color: #ccc;
   color: #fff;
-
-}
-
-button.notification-close:hover {
   cursor: pointer;
 }

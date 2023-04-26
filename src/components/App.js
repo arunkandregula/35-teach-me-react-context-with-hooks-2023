@@ -1,20 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import MainPage from './MainPage';
 import LoginPage from './LoginPage';
-import { UserConsumer } from '../context/UserContext';
+import { UserContext } from '../context/UserContext';
 import { EmailProvider } from '../context/EmailContext';
 
 function App() {
-
-  return (
-    <UserConsumer>
-      {
-        ({ currentUser }) => {
-          return currentUser != null ? <EmailProvider><MainPage /></EmailProvider> : <LoginPage />
-        }
-      }
-    </UserConsumer>
-  );
+  const { currentUser } = useContext(UserContext);
+  return currentUser != null ? <EmailProvider><MainPage /></EmailProvider> : <LoginPage />;
 }
 
 export default App;

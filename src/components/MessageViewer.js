@@ -1,22 +1,19 @@
-import React from 'react';
-import { EmailConsumer } from '../context/EmailContext';
+import React, { useContext } from 'react';
+import { EmailContext } from '../context/EmailContext';
 
-const MessageViewer = () => (
-    <EmailConsumer>
-        {
-            ({ currentEmail, onSelectEmail }) => <div className="MesaageViewer">
-                <button onClick={() => onSelectEmail(null)}>
-                    Back
-                </button>
-                <h2>
-                    {currentEmail.subject}
-                </h2>
-                <div>
-                    {currentEmail.body}
-                </div>
-            </div>
-        }
-    </EmailConsumer>
-);
+const MessageViewer = () => {
+    const { currentEmail, onSelectEmail } = useContext(EmailContext);
+    return <div className="MesaageViewer">
+        <button onClick={() => onSelectEmail(null)}>
+            Back
+        </button>
+        <h2>
+            {currentEmail.subject}
+        </h2>
+        <div>
+            {currentEmail.body}
+        </div>
+    </div>;
+};
 
 export default MessageViewer;
